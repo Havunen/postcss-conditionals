@@ -1,15 +1,11 @@
-# postcss-conditionals [![Build Status][ci-img]][ci]
+# postcss-conditionals-renewed [![Build Status][ci-img]][ci]
 
 [PostCSS] plugin that enables ```@if``` statements in your CSS.
-
-[PostCSS]: https://github.com/postcss/postcss
-[ci-img]:  https://travis-ci.org/andyjansson/postcss-conditionals.svg
-[ci]:      https://travis-ci.org/andyjansson/postcss-conditionals
 
 ## Installation
 
 ```js
-npm install postcss-conditionals
+npm install postcss postcss-conditionals-renewed
 ```
 
 ## Usage
@@ -17,7 +13,7 @@ npm install postcss-conditionals
 ```js
 var fs = require('fs');
 var postcss = require('postcss');
-var conditionals = require('postcss-conditionals');
+var conditionals = require('postcss-conditionals-renewed');
 
 var css = fs.readFileSync('input.css', 'utf8');
 

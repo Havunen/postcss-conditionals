@@ -7,12 +7,12 @@ function processIfRule(rule) {
 function processExpression(node, expr) {
     process(node);
     if (!expr)
-        throw node.error('Missing condition', { plugin: 'postcss-conditionals' });
-    
+        throw node.error('Missing condition', { plugin: 'postcss-conditionals-renewed' });
+
     const passed = evaluate(expr);
     if (passed)
         node.before(node.nodes);
-    
+
     processNextNode(node, !passed);
     node.remove();
 }
@@ -20,7 +20,7 @@ function processExpression(node, expr) {
 function processNextNode(rule, evaluateNext) {
     const node = rule.next();
 
-    if (typeof node === 'undefined') 
+    if (typeof node === 'undefined')
         return;
 
     if (node.type !== 'atrule')
@@ -32,7 +32,7 @@ function processNextNode(rule, evaluateNext) {
     if (evaluateNext) {
         if (node.params.substr(0, 2) === 'if')
             processElseIfRule(node);
-        else 
+        else
             processElseRule(node);
     }
     else

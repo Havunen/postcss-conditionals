@@ -1,6 +1,6 @@
 {
-  "name": "postcss-conditionals",
-  "version": "3.0.0",
+  "name": "postcss-conditionals-renewed",
+  "version": "1.0.0",
   "description": "PostCSS plugin that enables @if statements in your CSS",
   "keywords": [
     "postcss",
@@ -14,37 +14,41 @@
     "else"
   ],
   "author": "Andy Jansson",
+  "editor": "Sampo Kivistö",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andyjansson/postcss-conditionals.git"
+    "url": "https://github.com/Havunen/postcss-conditionals.git"
   },
   "dependencies": {
-    "css-color-converter": "^1.0.2",
-    "css-unit-converter": "^1.0.0",
-    "postcss": "^6.0.1"
+    "css-color-converter": "^2.0.0",
+    "css-unit-converter": "^1.1.2"
   },
   "devDependencies": {
-    "ava": "^0.18.2",
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.21.0",
+    "ava": "^3.15.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-eslint": "^7.1.1",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.4.0",
-    "babel-register": "^6.18.0",
-    "cross-env": "^3.1.4",
-    "del-cli": "^0.2.1",
-    "eslint": "^3.12.2",
-    "eslint-config-i-am-meticulous": "^6.0.1",
-    "eslint-plugin-babel": "^4.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "jison": "^0.4.17"
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "cross-env": "^7.0.3",
+    "del-cli": "^3.0.1",
+    "eslint": "^7.27.0",
+    "eslint-config-i-am-meticulous": "^12.0.0",
+    "eslint-plugin-babel": "^5.3.1",
+    "eslint-plugin-import": "^2.23.3",
+    "jison": "^0.4.18",
+    "postcss": "^8.3.0"
+  },
+  "peerDependencies": {
+    "postcss": "^8"
   },
   "scripts": {
     "prepublish": "npm run build && del-cli dist/__tests__",
     "build": "del-cli dist && cross-env BABEL_ENV=publish babel src --out-dir dist && jison parser.jison -o dist/lib/parser.js",
     "pretest": "eslint src && npm run build",
-    "test": "ava dist/__tests__/"
+    "test": "ava dist/__tests__/*"
   },
   "main": "dist/index.js",
   "files": [

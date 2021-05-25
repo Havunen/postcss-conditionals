@@ -1,4 +1,4 @@
-import color from 'css-color-converter';
+import {fromString, fromRgb} from 'css-color-converter';
 import convertUnits from 'css-unit-converter';
 
 function convertNodes(left, right) {
@@ -29,32 +29,42 @@ function convertNodes(left, right) {
 }
 
 function convertValue(left, right) {
-    if (right.type === 'Value') 
+    if (right.type === 'Value')
         return { left, right };
 
     const nodes = convertNodes(right, left);
-    return { 
-        left: nodes.right, 
+    return {
+        left: nodes.right,
         right: nodes.left
     };
 }
 
+function parseColor(node) {
+    const color = fromString(node.value);
+
+    if (color) {
+        return color.toHexString();
+    }
+
+    return null;
+}
+
 function convertColorValue(left, right) {
-    left.value = color(left.value).toHexString();
+    left.value = parseColor(left);
     if (right.type === 'Value') {
-        right = { 
-            type: 'ColorValue', 
-            value: color().fromRgb([
-                right.value, 
-                right.value, 
+        right = {
+            type: 'ColorValue',
+            value: fromRgb([
+                right.value,
+                right.value,
                 right.value
             ]).toHexString()
         };
     }
     else if (right.type === 'ColorValue') {
-        right.value = color(right.value).toHexString();
+        right.value = parseColor(right);
     }
-    
+
     return { left, right };
 }
 

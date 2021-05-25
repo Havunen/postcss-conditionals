@@ -1,4 +1,4 @@
-import color from 'css-color-converter';
+import {fromString, fromRgba} from 'css-color-converter';
 
 import {parser} from './parser' // eslint-disable-line
 import convert from './convert';
@@ -27,13 +27,13 @@ function evaluateLogicalExpression(ast) {
 
     if (right.type !== 'BooleanValue')
         throw new Error('Unexpected node type');
-        
-    const value = ast.operator === 'AND' 
+
+    const value = ast.operator === 'AND'
         ? left.value && right.value
         : left.value || right.value;
 
     return {
-        type: 'BooleanValue', 
+        type: 'BooleanValue',
         value: value
     };
 }
@@ -50,27 +50,27 @@ function evaluateBinaryExpression(ast) {
         const comparison = compare(left.value, right.value);
         switch (operator) {
             case '==':
-                if (left.type !== right.type) 
+                if (left.type !== right.type)
                     return false;
                 return comparison === 0;
             case '!=':
-                if (left.type !== right.type) 
+                if (left.type !== right.type)
                     return true;
                 return comparison !== 0;
             case '>=':
-                if (left.type !== right.type) 
+                if (left.type !== right.type)
                     throw new Error('Node type mismatch');
                 return comparison >= 0;
             case '>':
-                if (left.type !== right.type) 
+                if (left.type !== right.type)
                     throw new Error('Node type mismatch');
                 return comparison > 0;
             case '<=':
-                if (left.type !== right.type) 
+                if (left.type !== right.type)
                     throw new Error('Node type mismatch');
                 return comparison <= 0;
             case '<':
-                if (left.type !== right.type) 
+                if (left.type !== right.type)
                     throw new Error('Node type mismatch');
                 return comparison < 0;
         }
@@ -90,8 +90,9 @@ function evaluateMathematicalExpression(ast) {
         throw new Error('Node type mismatch');
     }
 
-    if (left.type === 'ColorValue') 
+    if (left.type === 'ColorValue') {
         return evaluateColorMath(left, right, operator);
+    }
 
     switch (operator) {
         case '+':
@@ -111,8 +112,8 @@ function evaluateMathematicalExpression(ast) {
 }
 
 function evaluateColorMath(left, right, op) {
-    const val1 = color(left.value).toRgbaArray();
-    const val2 = color(right.value).toRgbaArray();
+    const val1 = fromString(left.value).toRgbaArray();
+    const val2 = fromString(right.value).toRgbaArray();
 
     if (val1[3] !== val2[3]) {
         throw new Error('Alpha channels must be equal');
@@ -143,10 +144,10 @@ function evaluateColorMath(left, right, op) {
             b = Math.max(b / val2[2], 0);
             break;
     }
-    
+
     return {
         type: 'ColorValue',
-        value: color().fromRgba([r, g, b, a]).toHexString()
+        value: fromRgba([r, g, b, a]).toHexString()
     };
 }
 
@@ -176,7 +177,7 @@ export default (expr) => {
         case 'MathematicalExpression':
         case 'UnaryExpression':
             throw new Error('Could not evaluate expression');
-        default: 
+        default:
             return Boolean(result.value);
     }
 };
